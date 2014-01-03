@@ -1,0 +1,53 @@
+.angular-selector {
+  position: relative;
+  width: 300px;
+  background: #eee;
+  padding: 5px;
+  cursor: pointer;
+  .angular-selector-display-name {
+    color: #666;
+    float: left;
+    width: 50%;
+  }
+  .angular-selector-view-value {
+    float: left;
+    width: 50%;
+    text-align: right;
+    span {
+      margin-left: 10px;
+    }
+  }
+  .angular-selector-dropdown {
+    position: absolute;
+    top: 30px;
+    right: 0px;
+    z-index: 99999;
+    background: #eee;
+    input[type=text] {
+      border: 1px solid #ccc;
+      margin: 2px;
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      li {
+        margin: 0;
+        list-style-type: none;
+        a {
+          display: block;
+          text-decoration: none;
+          padding: 5px;
+          color: #333;
+          &:hover {
+            background: #666;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+.angular-selector-hidden {
+  display: none;
+}

@@ -7,3 +7,5 @@ angular.module('angularSelectApp')
       'AngularJS'
       'Karma'
     ]
+
+    $scope.selectedThing = 'foo'
