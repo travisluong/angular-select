@@ -3,13 +3,21 @@
   width: 300px;
   background: #eee;
   padding: 5px;
-  cursor: pointer;
+  .angular-selector-display {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
   .angular-selector-display-name {
     color: #666;
     float: left;
     width: 50%;
   }
   .angular-selector-view-value {
+    cursor: pointer;
     float: left;
     width: 50%;
     text-align: right;
@@ -34,6 +42,7 @@
         margin: 0;
         list-style-type: none;
         a {
+          cursor: pointer;
           display: block;
           text-decoration: none;
           padding: 5px;
@@ -42,6 +51,10 @@
             background: #666;
             color: #fff;
           }
+        }
+        a.active {
+          background: #666;
+          color: #fff;
         }
       }
     }

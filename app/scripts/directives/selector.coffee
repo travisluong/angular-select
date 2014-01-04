@@ -12,32 +12,49 @@ angular.module('angularSelectApp')
     link: (scope, element, attrs, ngModel) ->
       return if !ngModel
 
+      scope.currentThing = null
+
       scope.selectThing = (obj) ->
         ngModel.$setViewValue(obj)
         scope.viewValue = ngModel.$viewValue
+        scope.currentThing = obj
 
       scope.$watch ngModel.$modelValue, ->
         scope.viewValue = ngModel.$modelValue
 
       dropdown = element.find('.angular-selector-dropdown')
+      input = dropdown.find('input')
+      display = element.find('.angular-selector-view-value')
+
+      # TODO: get this to work
+      moveActiveDown = ->
+        dropdown_ul = dropdown.find('ul')
+        dropdown_lis = dropdown_ul.find('li')
+        dropdown_as = dropdown_lis.find('a')
+        dropdown_as.addClass('active')
+
+      # stops event propagation up to html to prevent dropdown from closing
+      input.on 'click', (e) ->
+        e.stopPropagation()
+
+      # escape key closes dropdown
+      input.on 'keydown', (e) ->
+        if e.keyCode == 27
+          dropdown.addClass('angular-selector-hidden')
+        if e.keyCode == 40
+          moveActiveDown()
 
       $('html').on 'click', (e) ->
+        console.log(e.offsetX)
+        console.log(e.offsetY)
         if !dropdown.hasClass('angular-selector-hidden')
-          top = dropdown[0].getBoundingClientRect().top
-          right = dropdown[0].getBoundingClientRect().right
-          bottom = dropdown[0].getBoundingClientRect().bottom
-          left = dropdown[0].getBoundingClientRect().left
-          console.log(e.offsetX)
-          console.log(e.offsetY)
-          return if e.offsetY > top && e.offsetY < bottom && e.offsetX > left && e.offsetX < right
+          rect = dropdown[0].getBoundingClientRect()
+          return if e.offsetY > rect.top && e.offsetY < rect.bottom && e.offsetX > rect.left && e.offsetX < rect.right
           dropdown.addClass('angular-selector-hidden')
 
-      element.find('.angular-selector-display').on 'click', (e) ->
+      display.on 'click', (e) ->
         e.stopPropagation()
-        dropdown.toggleClass('angular-selector-hidden')
-        console.log(dropdown[0].getBoundingClientRect().top)
-        console.log(dropdown[0].getBoundingClientRect().left)
-        console.log(dropdown[0].getBoundingClientRect().right)
-        console.log(dropdown[0].getBoundingClientRect().bottom)
+        dropdown.removeClass('angular-selector-hidden')
+        input.focus()
 
   )
