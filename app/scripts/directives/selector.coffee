@@ -30,8 +30,16 @@ angular.module('angularSelectApp')
       moveActiveDown = ->
         dropdown_ul = dropdown.find('ul')
         dropdown_lis = dropdown_ul.find('li')
-        dropdown_as = dropdown_lis.find('a')
-        dropdown_as.addClass('active')
+        dropdown_first = dropdown_ul.find('li:first-child')
+        dropdown_active = dropdown_lis.find('a.active')
+
+        if dropdown_active.length > 0
+          next_li = dropdown_active.parent().next()
+          next_li.find('a').addClass('active')
+          dropdown_active.removeClass('active')
+
+        if dropdown_active.length == 0
+          dropdown_first.find('a').addClass('active')
 
       # stops event propagation up to html to prevent dropdown from closing
       input.on 'click', (e) ->
