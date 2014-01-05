@@ -3,9 +3,10 @@
 angular.module('angularSelectApp')
   .controller 'MainCtrl', ($scope) ->
     $scope.awesomeThings = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
+      { id: 1, name: 'HTML5 Boilerplate' },
+      { id: 2, name: 'AngularJS' },
+      { id: 3, name: 'Karma' }
     ]
 
-    $scope.selectedThing = 'Karma'
+    # initial select value
+    $scope.selectedThing = 2
