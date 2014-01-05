@@ -1,8 +1,8 @@
 .angular-selector {
   position: relative;
-  background: #eee;
   padding: 5px;
   color: #666;
+  width: 200px;
   .angular-selector-display {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -12,17 +12,19 @@
     user-select: none;
   }
   .angular-selector-view-value {
+    padding: 5px;
+    background: #eee;
     cursor: pointer;
-    width: 100%;
+    width: 200px;
     span {
       margin-left: 10px;
     }
   }
   .angular-selector-dropdown {
     position: absolute;
-    width: 100%;
-    top: 30px;
-    right: 0px;
+    width: 200px;
+    top: 35px;
+    right: 5px;
     z-index: 99999;
     background: #eee;
     input[type=text] {
