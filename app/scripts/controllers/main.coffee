@@ -8,4 +8,4 @@ angular.module('angularSelectApp')
       'Karma'
     ]
 
-    $scope.selectedThing = 'foo'
+    $scope.selectedThing = 'Karma'

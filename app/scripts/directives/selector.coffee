@@ -12,7 +12,7 @@ angular.module('angularSelectApp')
     link: (scope, element, attrs, ngModel) ->
       return if !ngModel
 
-      scope.currentThing = null
+      scope.currentThing = scope.$parent.selectedThing
 
       scope.selectThing = (obj) ->
         ngModel.$setViewValue(obj)
@@ -26,7 +26,16 @@ angular.module('angularSelectApp')
       input = dropdown.find('input')
       display = element.find('.angular-selector-view-value')
 
-      # TODO: get this to work
+      scope.selectActive = ->
+        dropdown_ul = dropdown.find('ul')
+        dropdown_lis = dropdown_ul.find('li')
+        dropdown_active = dropdown_lis.find('a.active')
+        text = dropdown_active.text()
+        ngModel.$setViewValue(text)
+        scope.viewValue = text
+        # we must use scope.$apply here to update the scope
+        scope.$apply()
+
       moveActiveDown = ->
         dropdown_ul = dropdown.find('ul')
         dropdown_lis = dropdown_ul.find('li')
@@ -48,6 +57,7 @@ angular.module('angularSelectApp')
         dropdown_active = dropdown_lis.find('a.active')
 
         if dropdown_active.length > 0
+          # no prev() method exists in angular's jqlite, we we must use this
           prev_li = dropdown_active.parent()[0].previousElementSibling
           $(prev_li).find('a').addClass('active')
           dropdown_active.removeClass('active')
@@ -61,12 +71,15 @@ angular.module('angularSelectApp')
 
       # escape key closes dropdown
       input.on 'keydown', (e) ->
-        if e.keyCode == 27
+        if e.keyCode == 27 # escape
           dropdown.addClass('angular-selector-hidden')
-        if e.keyCode == 40
+        if e.keyCode == 40 # down arrow
           moveActiveDown()
-        if e.keyCode == 38
+        if e.keyCode == 38 # up arrow
           moveActiveUp()
+        if e.keyCode == 13 # enter
+          scope.selectActive()
+          dropdown.addClass('angular-selector-hidden')
 
       $('html').on 'click', (e) ->
         console.log(e.offsetX)
