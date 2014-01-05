@@ -41,6 +41,20 @@ angular.module('angularSelectApp')
         if dropdown_active.length == 0
           dropdown_first.find('a').addClass('active')
 
+      moveActiveUp = ->
+        dropdown_ul = dropdown.find('ul')
+        dropdown_lis = dropdown_ul.find('li')
+        dropdown_last = dropdown_ul.find('li').last()
+        dropdown_active = dropdown_lis.find('a.active')
+
+        if dropdown_active.length > 0
+          prev_li = dropdown_active.parent()[0].previousElementSibling
+          $(prev_li).find('a').addClass('active')
+          dropdown_active.removeClass('active')
+
+        if dropdown_active.length == 0
+          dropdown_last.find('a').addClass('active')
+
       # stops event propagation up to html to prevent dropdown from closing
       input.on 'click', (e) ->
         e.stopPropagation()
@@ -51,6 +65,8 @@ angular.module('angularSelectApp')
           dropdown.addClass('angular-selector-hidden')
         if e.keyCode == 40
           moveActiveDown()
+        if e.keyCode == 38
+          moveActiveUp()
 
       $('html').on 'click', (e) ->
         console.log(e.offsetX)
