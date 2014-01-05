@@ -1,6 +1,5 @@
 .angular-selector {
   position: relative;
-  width: 300px;
   background: #eee;
   padding: 5px;
   .angular-selector-display {
@@ -11,15 +10,9 @@
     -ms-user-select: none;
     user-select: none;
   }
-  .angular-selector-display-name {
-    color: #666;
-    float: left;
-    width: 50%;
-  }
   .angular-selector-view-value {
     cursor: pointer;
-    float: left;
-    width: 50%;
+    width: 100%;
     text-align: right;
     span {
       margin-left: 10px;
