@@ -26,11 +26,10 @@ angular.module('angularSelectApp')
 
       # watching for modelValue to change
       # used to show the initial object name on load
+      # otherwise the initial value in view will be blank
       scope.$watch ngModel.$modelValue, ->
-        scope.viewValue = ngModel.$modelValue
         angular.forEach scope.collection, (obj) ->
-          if obj[attrs.valueProp] == ngModel.$modelValue
-            scope.viewValue = obj[attrs.labelProp]
+          if obj == ngModel.$modelValue
             scope.currentObj = obj
 
       # get jqlite elements

@@ -9,4 +9,4 @@ angular.module('angularSelectApp')
     ]
 
     # initial select value
-    $scope.selectedThing = 2
+    $scope.selectedThing = $scope.awesomeThings[1]
