@@ -47,7 +47,9 @@ angular.module('angularSelectApp')
         scope.$apply()
 
       moveActiveDown = ->
-        if hoverIdx >= scope.collection.length - 1
+        if scope.limit && hoverIdx >= parseInt(scope.limit) - 1
+          hoverIdx = -1
+        else if hoverIdx >= scope.collection.length - 1
           hoverIdx = -1
         else
           hoverIdx++
@@ -55,7 +57,9 @@ angular.module('angularSelectApp')
         scope.$apply()
 
       moveActiveUp = ->
-        if hoverIdx < 0
+        if scope.limit && hoverIdx < 0
+          hoverIdx = parseInt(scope.limit) - 1
+        else if hoverIdx < 0
           hoverIdx = scope.collection.length - 1
         else
           hoverIdx--
