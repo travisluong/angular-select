@@ -47,12 +47,16 @@
           padding: 5px;
           color: #333;
           &:hover {
-            background: #666;
+            background: #428BCA;
             color: #fff;
           }
         }
         a.active {
           background: #666;
+          color: #fff;
+        }
+        a.keyhover {
+          background: #428BCA;
           color: #fff;
         }
       }

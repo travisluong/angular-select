@@ -15,12 +15,15 @@ angular.module('angularSelectApp')
       return if !ngModel
       scope.viewValue = null
       scope.currentObj = null
+      scope.hoverObj = null
+      hoverIdx = -1
 
       # selectThing is called by the click handler
       scope.selectThing = (obj) ->
         ngModel.$setViewValue(obj)
         scope.viewValue = obj.name
         scope.currentObj = obj
+        scope.hoverObj = obj
 
       # watching for modelValue to change
       # used to show the initial object name on load
@@ -38,44 +41,27 @@ angular.module('angularSelectApp')
 
       # select active is called by the keypress handler
       scope.selectActive = ->
-        dropdown_ul = dropdown.find('ul')
-        dropdown_lis = dropdown_ul.find('li')
-        dropdown_active = dropdown_lis.find('a.active')
-        text = dropdown_active.text()
-        ngModel.$setViewValue(text)
-        scope.viewValue = text
+        scope.currentObj = scope.hoverObj
+        ngModel.$setViewValue(scope.hoverObj)
         # because selectActive is being called from a keydown handler
         # we must use scope.$apply here to update the scope
         scope.$apply()
 
       moveActiveDown = ->
-        dropdown_ul = dropdown.find('ul')
-        dropdown_lis = dropdown_ul.find('li')
-        dropdown_first = dropdown_ul.find('li:first-child')
-        dropdown_active = dropdown_lis.find('a.active')
-
-        if dropdown_active.length > 0
-          next_li = dropdown_active.parent().next()
-          next_li.find('a').addClass('active')
-          dropdown_active.removeClass('active')
-
-        if dropdown_active.length == 0
-          dropdown_first.find('a').addClass('active')
+        if hoverIdx >= scope.collection.length - 1
+          hoverIdx = -1
+        else
+          hoverIdx++
+        scope.hoverObj = scope.collection[hoverIdx]
+        scope.$apply()
 
       moveActiveUp = ->
-        dropdown_ul = dropdown.find('ul')
-        dropdown_lis = dropdown_ul.find('li')
-        dropdown_last = dropdown_ul.find('li').last()
-        dropdown_active = dropdown_lis.find('a.active')
-
-        if dropdown_active.length > 0
-          # no prev() method exists in angular's jqlite, we we must use this
-          prev_li = dropdown_active.parent()[0].previousElementSibling
-          $(prev_li).find('a').addClass('active')
-          dropdown_active.removeClass('active')
-
-        if dropdown_active.length == 0
-          dropdown_last.find('a').addClass('active')
+        if hoverIdx < 0
+          hoverIdx = scope.collection.length - 1
+        else
+          hoverIdx--
+        scope.hoverObj = scope.collection[hoverIdx]
+        scope.$apply()
 
       # stops event propagation up to html to prevent dropdown from closing
       input.on 'click', (e) ->
@@ -95,8 +81,6 @@ angular.module('angularSelectApp')
 
       # clicking anywhere outside the dropdown box closes it
       $('html').on 'click', (e) ->
-        console.log(e.offsetX)
-        console.log(e.offsetY)
         if !dropdown.hasClass('angular-selector-hidden')
           rect = dropdown[0].getBoundingClientRect()
           return if e.offsetY > rect.top && e.offsetY < rect.bottom && e.offsetX > rect.left && e.offsetX < rect.right
