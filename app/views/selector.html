@@ -9,7 +9,7 @@
     <input type="text" ng-model="selectorSearch">
     <div>
       <ul>
-        <li ng-repeat="obj in collection | filter:selectorSearch">
+        <li ng-repeat="obj in collection | filter:selectorSearch | limitTo:limit">
           <a ng-click="selectThing(obj)" ng-class="{active: obj == currentObj, keyhover: obj == hoverObj}">{{obj.name}}</a>
         </li>
       </ul>

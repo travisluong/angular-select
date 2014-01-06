@@ -11,6 +11,7 @@ angular.module('angularSelectApp')
       display: "@"
       labelProp: "@"
       valueProp: "@"
+      limit: "@"
     link: (scope, element, attrs, ngModel) ->
       return if !ngModel
       scope.currentObj = null

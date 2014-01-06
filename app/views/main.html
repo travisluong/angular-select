@@ -7,10 +7,10 @@
 </div>
 
 <div class="row marketing">
-  <div class="col-md-12">
-    <selector collection="awesomeThings" ng-model="selectedThing" label-prop="name" value-prop="id" />
+  <div class="col-md-6">
+    <selector collection="awesomeThings" ng-model="selectedThing" label-prop="name" value-prop="id" limit="5" />
   </div>
-  <div class="col-md-12 well">
+  <div class="col-md-6 well">
     selected thing: {{selectedThing}}
   </div>
 </div>
