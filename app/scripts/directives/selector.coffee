@@ -15,6 +15,7 @@ angular.module('angularSelectApp')
       return if !ngModel
       scope.currentObj = null
       scope.hoverObj = null
+      scope.dropdownHidden = true
       hoverIdx = -1
 
       # selectThing is called by the click handler
@@ -68,27 +69,30 @@ angular.module('angularSelectApp')
       # escape key closes dropdown
       input.on 'keydown', (e) ->
         if e.keyCode == 27 # escape
-          dropdown.addClass('angular-selector-hidden')
+          scope.dropdownHidden = false
         if e.keyCode == 40 # down arrow
           moveActiveDown()
         if e.keyCode == 38 # up arrow
           moveActiveUp()
         if e.keyCode == 13 # enter
           scope.selectActive()
-          dropdown.addClass('angular-selector-hidden')
+          scope.dropdownHidden = true
+        scope.$apply()
 
       # clicking anywhere outside the dropdown box closes it
       $('html').on 'click', (e) ->
-        if !dropdown.hasClass('angular-selector-hidden')
+        if scope.dropdownHidden == false
           rect = dropdown[0].getBoundingClientRect()
           return if e.offsetY > rect.top && e.offsetY < rect.bottom && e.offsetX > rect.left && e.offsetX < rect.right
-          dropdown.addClass('angular-selector-hidden')
+          scope.dropdownHidden = true
+          scope.$apply()
 
       # TODO: refactor this to use ng-show
       # clicking on the select widget shows it
       display.on 'click', (e) ->
         e.stopPropagation()
-        dropdown.removeClass('angular-selector-hidden')
+        scope.dropdownHidden = false
+        scope.$apply()
         input.focus()
 
   )
