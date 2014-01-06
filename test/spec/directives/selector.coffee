@@ -13,4 +13,4 @@ describe 'Directive: selector', () ->
   it 'should make hidden element visible', inject ($compile) ->
     element = angular.element '<selector></selector>'
     element = $compile(element) scope
-    expect(element.text()).toBe 'this is the selector directive'
+    expect(element.text()).toBe ''
