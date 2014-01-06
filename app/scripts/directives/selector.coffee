@@ -68,7 +68,7 @@ angular.module('angularSelectApp')
       # escape key closes dropdown
       input.on 'keydown', (e) ->
         if e.keyCode == 27 # escape
-          scope.dropdownHidden = false
+          scope.dropdownHidden = true
         if e.keyCode == 40 # down arrow
           moveActiveDown()
         if e.keyCode == 38 # up arrow
