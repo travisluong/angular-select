@@ -13,7 +13,6 @@ angular.module('angularSelectApp')
       valueProp: "@"
     link: (scope, element, attrs, ngModel) ->
       return if !ngModel
-      scope.viewValue = null
       scope.currentObj = null
       scope.hoverObj = null
       hoverIdx = -1
@@ -21,7 +20,6 @@ angular.module('angularSelectApp')
       # selectThing is called by the click handler
       scope.selectThing = (obj) ->
         ngModel.$setViewValue(obj)
-        scope.viewValue = obj.name
         scope.currentObj = obj
         scope.hoverObj = obj
 
