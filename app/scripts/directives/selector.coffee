@@ -40,6 +40,12 @@ angular.module('angularSelectApp')
           if obj == ngModel.$modelValue
             scope.currentObj = obj
 
+      # set the query data as soon as collection is loaded
+      # so we can use it in our keypress handlers
+      scope.$watch scope.collection, ->
+        scope.queryData = $filter('filter')(scope.collection, null)
+
+
       # get jqlite elements
       dropdown = element.find('.angular-selector-dropdown')
       input = dropdown.find('input')
