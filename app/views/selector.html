@@ -1,7 +1,7 @@
 <div class="angular-selector clearfix">
   <div class="angular-selector-display">
     <div class="angular-selector-view-value pull-right">
-      {{currentObj.name}}
+      {{currentObj[labelProp]}}
       <span class="glyphicon glyphicon-collapse-down pull-right"></span>
     </div>
   </div>
@@ -10,7 +10,7 @@
     <div>
       <ul>
         <li ng-repeat="obj in collection | filter:selectorSearch | limitTo:limit">
-          <a ng-click="selectThing(obj)" ng-class="{active: obj == currentObj, keyhover: obj == hoverObj}">{{obj.name}}</a>
+          <a ng-click="selectThing(obj)" ng-class="{active: obj == currentObj, keyhover: obj == hoverObj}">{{obj[labelProp]}}</a>
         </li>
       </ul>
     </div>
