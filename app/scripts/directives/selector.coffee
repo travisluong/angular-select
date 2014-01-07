@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('angularSelectApp')
-  .directive('selector', () ->
+  .directive('selector', ['$filter', ($filter) ->
     templateUrl: 'views/selector.html'
     restrict: 'E'
     require: 'ngModel'
@@ -18,6 +18,13 @@ angular.module('angularSelectApp')
       scope.hoverObj = null
       scope.dropdownHidden = true
       hoverIdx = -1
+
+      # this is for the up and down keys
+      # we don't want to key through the entire collection,
+      # just the filtered objects
+      scope.getData = (collection, search) ->
+        scope.queryData = $filter('filter')(collection, search)
+        scope.hoverObj = scope.queryData[0]
 
       # selectThing is called by the click handler
       scope.selectThing = (obj) ->
@@ -44,44 +51,32 @@ angular.module('angularSelectApp')
         ngModel.$setViewValue(scope.hoverObj)
         # because selectActive is being called from a keydown handler
         # we must use scope.$apply here to update the scope
-        scope.$apply()
 
       moveActiveDown = ->
-        if scope.limit && hoverIdx >= parseInt(scope.limit) - 1
-          hoverIdx = -1
-        else if hoverIdx >= scope.collection.length - 1
-          hoverIdx = -1
-        else
+        if hoverIdx < scope.queryData.length - 1 && hoverIdx < scope.limit - 1
           hoverIdx++
-        scope.hoverObj = scope.collection[hoverIdx]
-        scope.$apply()
+        scope.hoverObj = scope.queryData[hoverIdx]
 
       moveActiveUp = ->
-        if scope.limit && hoverIdx < 0
-          hoverIdx = parseInt(scope.limit) - 1
-        else if hoverIdx < 0
-          hoverIdx = scope.collection.length - 1
-        else
+        if hoverIdx > 0
           hoverIdx--
-        scope.hoverObj = scope.collection[hoverIdx]
-        scope.$apply()
+        scope.hoverObj = scope.queryData[hoverIdx]
 
       # stops event propagation up to html to prevent dropdown from closing
       input.on 'click', (e) ->
         e.stopPropagation()
 
       # escape key closes dropdown
-      input.on 'keydown', (e) ->
-        if e.keyCode == 27 # escape
+      scope.keydownHandler = ->
+        if event.keyCode == 27 # escape
           scope.dropdownHidden = true
-        if e.keyCode == 40 # down arrow
+        if event.keyCode == 40 # down arrow
           moveActiveDown()
-        if e.keyCode == 38 # up arrow
+        if event.keyCode == 38 # up arrow
           moveActiveUp()
-        if e.keyCode == 13 # enter
+        if event.keyCode == 13 # enter
           scope.selectActive()
           scope.dropdownHidden = true
-        scope.$apply()
 
       # clicking anywhere outside the dropdown box closes it
       $('html').on 'click', (e) ->
@@ -89,9 +84,9 @@ angular.module('angularSelectApp')
           rect = dropdown[0].getBoundingClientRect()
           return if e.offsetY > rect.top && e.offsetY < rect.bottom && e.offsetX > rect.left && e.offsetX < rect.right
           scope.dropdownHidden = true
+          # we need to use $apply because this isnt an angular event
           scope.$apply()
 
-      # TODO: refactor this to use ng-show
       # clicking on the select widget shows it
       display.on 'click', (e) ->
         e.stopPropagation()
@@ -99,4 +94,4 @@ angular.module('angularSelectApp')
         scope.$apply()
         input.focus()
 
-  )
+  ])

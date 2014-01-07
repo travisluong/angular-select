@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="angular-selector-dropdown" ng-hide="dropdownHidden">
-    <input type="text" ng-model="selectorSearch">
+    <input type="text" ng-model="selectorSearch" ng-change="getData(collection, selectorSearch)" ng-keydown="keydownHandler()">
     <div>
       <ul>
         <li ng-repeat="obj in collection | filter:selectorSearch | limitTo:limit">
