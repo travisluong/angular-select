@@ -45,7 +45,6 @@ angular.module('angularSelectApp')
       scope.$watch scope.collection, ->
         scope.queryData = $filter('filter')(scope.collection, null)
 
-
       # get jqlite elements
       dropdown = element.find('.angular-selector-dropdown')
       input = dropdown.find('input')
@@ -94,6 +93,8 @@ angular.module('angularSelectApp')
           scope.$apply()
 
       # clicking on the select widget shows it
+      # we must use dom manipulation because
+      # angular cannot call input.focus() or other dom stuff inside ng-click handler
       display.on 'click', (e) ->
         e.stopPropagation()
         scope.dropdownHidden = false
