@@ -32,6 +32,12 @@ angular.module('yourApp', ['angularSelectApp'])
     $scope.selectedThing = $scope.awesomeThings[1]
 ```
 
+This directive also supports string as the ngModel
+
+```html
+<selector type="string" collection="awesomeThings" ng-model="selectedThing" label-prop="name" value-prop="id" limit="5" />
+```
+
 ## Installation
 
 Include these files into your app
