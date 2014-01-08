@@ -2,6 +2,8 @@
 
 angular select is an AngularJS directive for basic select dropdown functionality with filtering.
 
+[See example](http://angular-select.travisluong.com)
+
 ## Example usage
 
 main.html
@@ -33,6 +35,7 @@ angular.module('yourApp', ['angularSelectApp'])
 ## Installation
 
 Include these files into your app
+
 * selector.coffee
 * selector.scss
 * selector.html
@@ -41,3 +44,9 @@ Change the templateUrl in selector.coffee to point to wherever you put selector.
 ```coffeescript
 templateUrl: '/views/selector.html'
 ```
+
+## Credits
+Created by Travis Luong
+
+## License
+MIT
