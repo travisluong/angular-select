@@ -13,9 +13,10 @@
   }
   .angular-selector-view-value {
     padding: 5px;
-    background: #eee;
+    background: #fff;
     cursor: pointer;
     width: 200px;
+    border: 2px solid #666;
     span {
       margin-left: 10px;
     }
@@ -23,10 +24,11 @@
   .angular-selector-dropdown {
     position: absolute;
     width: 200px;
-    top: 35px;
+    top: 37px;
     right: 5px;
     z-index: 99999;
     background: #eee;
+    border: 2px solid #666;
     input[type=text] {
       border: 1px solid #ccc;
       margin: 2px;

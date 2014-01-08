@@ -1,8 +1,8 @@
 'use strict'
 
 angular.module('angularSelectApp')
-  .directive('selector', ['$filter', ($filter) ->
-    templateUrl: 'views/selector.html'
+  .directive('selector', ['$filter', '$interval', '$timeout', ($filter, $interval, $timeout) ->
+    templateUrl: '/views/selector.html'
     restrict: 'E'
     require: 'ngModel'
     replace: true
@@ -12,12 +12,14 @@ angular.module('angularSelectApp')
       labelProp: "@"
       valueProp: "@"
       limit: "@"
+      type: "@"
     link: (scope, element, attrs, ngModel) ->
       return if !ngModel
-      scope.currentObj = null
+      scope.currentObj = {}
       scope.hoverObj = null
       scope.dropdownHidden = true
       hoverIdx = -1
+      scope.stop = undefined
 
       # this is for the up and down keys
       # we don't want to key through the entire collection,
@@ -37,8 +39,37 @@ angular.module('angularSelectApp')
       # otherwise the initial value in view will be blank
       scope.$watch ngModel.$modelValue, ->
         angular.forEach scope.collection, (obj) ->
-          if obj == ngModel.$modelValue
+          if scope.type == "string"
+            if ngModel.$modelValue && obj[scope.valueProp] == ngModel.$modelValue
+              scope.currentObj = obj
+          else if ngModel.$modelValue && obj[scope.valueProp] == ngModel.$modelValue[scope.valueProp]
             scope.currentObj = obj
+
+      # part of the solution to initial value not showing
+      scope.stopInterval = ->
+        if angular.isDefined(scope.stop)
+          $interval.cancel(scope.stop)
+          scope.stop = undefined
+
+      # this is to fix the problem of initial value not showing
+      # use an interval to continuously check the model
+      # when there is a change, we update the currentObj
+      # stop the interval after we update the currentObj
+      scope.stop = $interval( (->
+        angular.forEach scope.collection, (obj) ->
+          if scope.type == "string"
+            if ngModel.$modelValue && obj[scope.valueProp] == ngModel.$modelValue
+              scope.currentObj = obj
+          else if ngModel.$modelValue && obj[scope.valueProp] == ngModel.$modelValue[scope.valueProp]
+            scope.currentObj = obj
+            scope.stopInterval()
+        ), 100 )
+
+      # stop the interval after 5 seconds
+      $timeout( (->
+        scope.stopInterval()
+        ), 5000
+      )
 
       # set the query data as soon as collection is loaded
       # so we can use it in our keypress handlers
