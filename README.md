@@ -5,12 +5,12 @@ angular select is an AngularJS directive for basic select dropdown functionality
 ## Example usage
 
 main.html
-'''html
+```html
 <selector collection="awesomeThings" ng-model="selectedThing" label-prop="name" value-prop="id" limit="5" />
-'''
+```
 
 main.coffee
-'''coffeescript
+```coffeescript
 angular.module('yourApp', ['angularSelectApp'])
   .controller 'MainCtrl', ($scope) ->
     $scope.awesomeThings = [
@@ -28,9 +28,9 @@ angular.module('yourApp', ['angularSelectApp'])
 
     # initial select value (the ng-model for directive)
     $scope.selectedThing = $scope.awesomeThings[1]
-'''
+```
 
-# Installation
+## Installation
 
 Include these files into your app
 * selector.coffee
@@ -38,6 +38,6 @@ Include these files into your app
 * selector.html
 
 Change the templateUrl in selector.coffee to point to wherever you put selector.html
-'''coffeescript
+```coffeescript
 templateUrl: '/views/selector.html'
-'''
+```
