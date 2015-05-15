@@ -2,8 +2,6 @@
 
 angular select is an AngularJS directive for basic select dropdown functionality with filtering.
 
-[See example](http://angular-select.travisluong.com)
-
 ## Example usage
 
 main.html
